@@ -1,7 +1,5 @@
-    var timer;
-      let levelsNodes = document.querySelectorAll(".levels-menu a");
-            console.log(levelsNodes);
-    var Memory = {
+    let timer;
+    let Memory = {
          
           init: function(cards){
             this.game = document.querySelector("#game");
@@ -14,7 +12,7 @@
             this.card1flipped = false;
             this.card2flipped = false;
             this.flippedTiles = 0;
-
+            
             this.gameStartScreen = document.querySelector("#startScreen");
             this.gameCardsBackChanger = document.querySelector("#gameCardsBackChangermy");
             this.gameWrapper = document.createElement("div");
@@ -22,36 +20,11 @@
             this.gameWrapper.appendChild(this.gameContents);
             this.gameMessages = document.createElement("div");
             this.gameTimer =document.createElement("div");
-            
-            //this.startScreen();
             this.startScreenEvents();
-            this.levelsNodes = document.querySelectorAll(".levels-menu a");
-            //console.log(levelsNodes);
     },
 
-          /*startScreen: function(){
-            this.gameStartScreenHTML = '<h1>Match-match game</h1>\
-              <section class="gamerules">\
-                <p>On each turn, a player turns over any two cards (one at a time).</p>\
-                <p>If they successfully match a pair they disappear, and the player gets another turn.</p>\
-                <p>When a player turns over two cards that do not match, those cards are turned face down again (in the same position).</p>\
-                <p>The trick is to remember which cards are where.</p>\
-                <p>The person with all pairs matched wins!</p>\
-              </section>\
-              <h2>Choose difficulty of the game</h2>\
-                <ul class="levels-menu">\
-                  <li><a href=# data-level="1">Low 2*2</a></li>\
-                  <li><a href=# data-level="2">Medium 4*3</a></li>\
-                  <li><a href=# data-level="3">Hard 4*4</a></li>\
-                </ul>';
-            this.gameStartScreen.innerHTML = this.gameStartScreenHTML;
-            this.game.appendChild(this.gameStartScreen);
-            this.startScreenEvents();
-      
-          },*/
-
-
           startScreenEvents: function() {
+            this.gameStartScreen.classList.remove("visability-hidden");
              let levelsNodes = document.querySelectorAll(".levels-menu a");
              let length = levelsNodes.length;
              console.log(levelsNodes, length);
@@ -59,7 +32,6 @@
                   let levelNode = levelsNodes[i];
                   this.startScreenEventsHandler(levelNode);
                 }
-                
           },
 
           startScreenEventsHandler: function(levelNode) {
@@ -72,20 +44,14 @@
 
           setupCardsBackScreen: function(levelNode) {
               this.level = levelNode.getAttribute("data-level");
+              console.log(this.level);
               this.gameStartScreen.classList.add("visability-hidden");
-
-              //this.gameStartScreen.parentNode.removeChild(this.gameStartScreen);
-             // this.game.appendChild(this.gameCardsBackChanger);
               this.cardsBacksScreen();
           },
 
           cardsBacksScreen: function(){
-              this.gameStartScreen.classList.add("visability-hidden");
-
               this.gameCardsBackChanger.classList.remove("visability-hidden");
-              //this.game.appendChild(this.gameCardsBackChanger);
               this.startCardsBackEvents();
-
         },
 
           startCardsBackEvents: function() {
@@ -106,15 +72,29 @@
 
           setupGameWrapper: function(cardBack) {
                 this.cardBack = cardBack.getAttribute("data-cardBack");
-                this.gameCardsBackChanger.parentNode.removeChild(this.gameCardsBackChanger);
+                //this.gameCardsBackChanger.parentNode.removeChild(this.gameCardsBackChanger);
+                this.gameCardsBackChanger.classList.add("visability-hidden");
                 this.game.appendChild(this.gameWrapper);
+                
                 this.buildTiles();
           },
 
-           buildTiles: function(){
-                  if (this.level===1){this.numTiles = 4;}
-                  else if (this.level===2){this.numTiles = 8;}
-                  else if (this.level===3){this.numTiles = 16;}
+          buildTiles: function(){
+              this.level *=1;
+              this.cardBack *=1;
+              let cback='back1';
+
+              switch(this.level) {
+                case 1:
+                this.numTiles = 4;
+                break;
+                case 2:
+                this.numTiles = 8;
+                break;
+                default:
+                this.numTiles = 16;
+              }
+
               this.shuffle(cards);   
               this.halfNumTiles = this.numTiles/2;
               this.newCardsArray = [];
@@ -123,36 +103,33 @@
                   }
               this.shuffle(this.newCardsArray);
               this.tilesHTML = '';
-                for ( let i = 0; i < this.numTiles; i++  ) {
-                   if (this.cardBack===1){this.tilesHTML += ' <div class="container"><div class="card" id="' + this.newCardsArray[i]["id"]+'">\
-                   <span class="front back1" id="cardFront"></span>\
-                    <span class="back"><img src="' + this.newCardsArray[i]["img"] + '"></span>\
-                    </div></div>';}
-                    else if (this.cardBack===2){this.tilesHTML += ' <div class="container"><div class="card" id="' + this.newCardsArray[i]["id"]+'">\
-                   <span class="front back2" id="cardFront"></span>\
-                    <span class="back"><img src="' + this.newCardsArray[i]["img"] + '"></span>\
-                    </div></div>';}
-                    else if (this.cardBack===3){this.tilesHTML += ' <div class="container"><div class="card" id="' + this.newCardsArray[i]["id"]+'">\
-                   <span class="front back3" id="cardFront"></span>\
-                    <span class="back"><img src="' + this.newCardsArray[i]["img"] + '"></span>\
-                    </div></div>';}
+
+              switch(this.cardBack) {
+                  case 2:
+                      cback='back2';
+                      break;
+                  case 3:
+                    cback='back3';
+              }
+
+              for ( let i = 0; i < this.numTiles; i++  ) {
+                  this.tilesHTML += `<div class="container"><div class="card" data-id="${this.newCardsArray[i]["id"]}">
+                      <span class="front ${cback}" id="cardFront"></span><span class="back"><img src="${this.newCardsArray[i]["img"]}"></span></div></div>`;
                 }
         
               this.gameContents.innerHTML = this.tilesHTML;
-              this.gamePlay();
-      
+              this.gameContents.classList.add("gameContents-style");
+              this.gamePlay();     
           },
 
-             gamePlay: function() {
+            gamePlay: function() {
               let tiles = document.querySelectorAll(".card");
               let length = tiles.length;
               for (let i = 0; i < length; i++) {
                 let tile = tiles[i];
                 this.gamePlayEvents(tile);
               };
-             this.setGameTimer();
-           
-            
+             this.setGameTimer(); 
             },
 
             gamePlayEvents: function(tile) {
@@ -162,12 +139,12 @@
                     if (self.card1flipped === false && self.card2flipped === false) {
                       this.classList.add("flipped");
                       self.card1 = this;
-                      self.card1id = this.getAttribute("id");
+                      self.card1id = this.getAttribute("data-id");
                       self.card1flipped = true;
                     } else if( self.card1flipped === true && self.card2flipped === false ) {
                       this.classList.add("flipped");
                       self.card2 = this;
-                      self.card2id = this.getAttribute("id");
+                      self.card2id = this.getAttribute("data-id");
                       self.card2flipped = true;
                       if ( self.card1id === self.card2id ) {
                         self.gameCardsMatch();
@@ -177,8 +154,7 @@
                       }
                   }
                 });
-        
-              },
+            },
 
           gameCardsMatch: function() {
             let self = this;
@@ -198,84 +174,82 @@
                 self.winGame();
               }
             }, 1500 );
-
           },
 
-            gameCardsMismatch: function() {
+          gameCardsMismatch: function() {
               let self = this;
               setTimeout( function(){
                 self.card1.classList.remove("flipped");
                 self.card2.classList.remove("flipped");
                 self.gameResetVars();
               }, 900 );
-            },
+          },
 
-
-              gameResetVars: function() {
+          gameResetVars: function() {
               this.card1 = "";
               this.card2 = "";
               this.card1id = "";
               this.card2id = "";
               this.card1flipped = false;
               this.card2flipped = false;
+          },
 
-                },
-
-              winGame: function(){
+          winGame: function() {
                   let self=this;
+                  //this.clearTimer();
                   this.gameContents.parentNode.removeChild(this.gameContents);
-                  this.gameMessagesHTML = '<h2 class="congratulations">You won!</h2>\
-                    <p>You made it in '+this.minutesAmount+'minutes and ' + this.secondsAmount + ' seconds! Lucky you are)</p>\
-                    <button id="restart-button" class="buttonPlay">New game?</button>';
+                  //this.gameTimer.parentNode.removeChild(this.gameTimer);
+                  this.gameMessagesHTML = `<h2 class="congratulations">You won!</h2>
+                  <p>You made it in ${this.minutesAmount} minutes and ${this.secondsAmount} seconds! Lucky you are)</p>
+                    <button id="restart-button" class="buttonPlay">New game?</button>`;
                   this.gameMessages.innerHTML = this.gameMessagesHTML;
                   this.game.appendChild(this.gameMessages);
+
                   document.getElementById("restart-button").addEventListener( "click",  function(e) {
                     self.resetGame();
                    });
-
-              },
+          },
                
-              shuffle: function(arr){
+          shuffle: function(arr) {
                   let counter = arr.length;
-                  let temp;
                   let index;
                        while (counter > 0) {
                       index = Math.floor(Math.random() * counter);
                       counter--;
-                      temp = arr[counter];
-                      arr[counter] = arr[index];
-                      arr[index] = temp;
+                      [arr[counter], arr[index]]=[arr[index], arr[counter]];
                     }
                     return arr;
-                },
+          },
 
-              setGameTimer: function(){
-                  this.secondsAmount++;
+          setGameTimer: function() {
+              this.secondsAmount++;
                     if (this.secondsAmount===60){
                       this.minutesAmount++;
                       this.secondsAmount=0;
                     }
-                  this.gameTimerHTML = `<span>Timer: ${this.minutesAmount}: ${this.secondsAmount}</span>`;
-                  this.gameTimer.innerHTML = this.gameTimerHTML;
-                  this.gameContents.appendChild(this.gameTimer);
-                  timer=setTimeout(this.setGameTimer.bind(this),1000); 
-              },
+              this.gameTimerHTML = `<span>Timer: ${this.minutesAmount}: ${this.secondsAmount} </span>`;
+              this.gameTimer.innerHTML = this.gameTimerHTML;
+              this.gameContents.appendChild(this.gameTimer);
+              timer=setTimeout(this.setGameTimer.bind(this),1000); 
+          },
 
               clearTimer: function(){
                 clearTimeout(timer);
               },
 
 
-               resetGame: function() {
-                this.clearTimer();
-                this.gameTimer.parentNode.removeChild(this.gameTimer);
+          resetGame: function() {
+               this.clearTimer();
+                //clearTimeout(timer);
+               this.gameTimer.parentNode.removeChild(this.gameTimer);
                 this.gameMessages.parentNode.removeChild(this.gameMessages);
-                this.init();
-              }
+                this.init();  
+          }
+
 
       };
 
-    var cards = [
+    let cards = [
       {
         img: "img/dog-1.png",
         id: 1,
@@ -311,8 +285,3 @@
     ];
     
   Memory.init(cards);
-
-
-
-
-  //document.getElementById('restart').addEventListener('click', startGame);
