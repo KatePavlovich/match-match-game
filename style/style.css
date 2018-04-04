@@ -7,41 +7,48 @@
 body {
   text-align: center;
   font-size: 1.5em;
+  font-family: 'Chicle', cursive;
 } 
 
 a {
   text-decoration: none;
 }  
-   
+ 
+h1,
+h2 {
+  text-transform: uppercase;
+  margin: 1em;
+  color: #714d7b;
+}
+
+.difficulty-style{
+  box-shadow: inset 0 0 3px 2px #8e8292;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  background: #b44ed029;
+} 
+
 .wrap {
   margin: 0 auto;
   max-width: 1200px;
 } 
-
-h1, h2 {
-  text-transform: uppercase;
-  margin: 2em;
-  color: #714d7b;
-}
     
 .gamerules {
-  text-align: justify;
-  line-height: 1.8;
-  max-width: 600px;
+  max-width: 660px;
   margin: 0 auto;
-  text-indent: 2em;
+  text-align: center;
+  line-height: 1.8;
+  color: #551a8b;
 }
 
 .buttonPlay {
   text-transform: uppercase;
   border-radius: 5px;
   background-color: #351c3c;
-  background-image: -webkit-linear-gradient( -45deg, #112b3c, #351c3c 70%);
   color: #fff;
   padding: 2em 5em; 
   cursor: pointer; 
-  clear: both;
-  font-weight: bold;
+  margin: 2em;
 }
   
 .levels-menu,
@@ -74,16 +81,11 @@ h1, h2 {
   box-shadow: 0 0 20px rgba(48,226,43,0.5);
 }
  
-#game {
-  transform-style: preserve-3d;
-  perspective: 500px;
-}
-
 .container {
   float: left;
   width: 160px;
   height: 120px;
-  margin: 2em;
+  margin: 0 2em 3em;
   cursor: pointer;
   z-index: 50; 
   padding: 5px;
@@ -199,4 +201,10 @@ h1, h2 {
   display: flex;
   justify-content: space-around;
   flex-flow: wrap;
+  transform-style: preserve-3d;
+  perspective: 500px;
+}
+
+.timer-style {
+  margin: 1em;
 }

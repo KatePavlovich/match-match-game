@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Match-match game</title>
+    <link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css"/>
   </head>
   <body>
@@ -16,7 +17,7 @@
             <p>The trick is to remember which cards are where.</p>
             <p>The person with all pairs matched wins!</p>
           </section>
-          <h2>Choose difficulty of the game</h2>
+          <h2>1. Choose difficulty of the game</h2>
             <ul class="levels-menu">
               <li>
                 <a href=# data-level="1">Low 2*2</a>
@@ -30,8 +31,8 @@
             </ul>
         </div>
 
-        <div id="gameCardsBackChangermy" class="gameCardsBackChanger visability-hidden">
-          <h2>Choose cards back</h2>
+        <div id="gameCardsBackChanger" class="gameCardsBackChanger">
+          <h2>2. Choose cards back</h2>
             <ul class="cardsBacks-menu">
               <li class="back1" data-cardBack="1"></li>
               <li class="back2" data-cardBack="2"></li>
@@ -40,7 +41,7 @@
         </div>
 
         <div id="cardsFild"></div>
-        <div id="gameTimer"></div>
+        <div id="gameTimer" class="timer-style"></div>
     </div>
       <script type="text/javascript" src="js/js.js"></script>
   </body>  
