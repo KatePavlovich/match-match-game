@@ -4,47 +4,44 @@
     <meta charset="utf-8">
     <title>Match-match game</title>
     <link rel="stylesheet" href="style/style.css"/>
-    
   </head>
   <body>
-      <div class='wrap'>
-        <div id='game'>
-          <div id="startScreen">
-            <h1>Match-match game</h1>
-            <section class="gamerules">
-              <p>On each turn, a player turns over any two cards (one at a time).</p>
-              <p>If they successfully match a pair they disappear, and the player gets another turn.</p>
-              <p>When a player turns over two cards that do not match, those cards are turned face down again (in the same position).</p>
-              <p>The trick is to remember which cards are where.</p>
-              <p>The person with all pairs matched wins!</p>
-            </section>
-            <h2>Choose difficulty of the game</h2>
-              <ul class="levels-menu">
-                <li>
-                  <a href=# data-level="1">Low 2*2</a>
-                </li>
-                <li>
-                  <a href=# data-level="2">Medium 4*3</a>
-                </li>
-                <li>
-                  <a href=# data-level="3">Hard 4*4</a>
-                </li>
-              </ul>
-          </div>
-
-          <div id="gameCardsBackChangermy" class="gameCardsBackChanger visability-hidden">
-            <h2>Choose cards back</h2>
-              <ul class="cardsBacks-menu">
-                <li class="back1" data-cardBack="1"></li>
-                <li class="back2" data-cardBack="2"></li>
-                <li class="back3" data-cardBack="3"></li>
-              </ul>
-          </div>
-
-          <div id="cardsFild">
-          </div>
+    <div id="game" class="wrap">
+      <div id="startScreen">
+        <h1>Match-match game</h1>
+          <section class="gamerules">
+            <p>On each turn, a player turns over any two cards (one at a time).</p>
+            <p>If they successfully match a pair they disappear, and the player gets another turn.</p>
+            <p>When a player turns over two cards that do not match, those cards are turned face down again (in the same position).</p>
+            <p>The trick is to remember which cards are where.</p>
+            <p>The person with all pairs matched wins!</p>
+          </section>
+          <h2>Choose difficulty of the game</h2>
+            <ul class="levels-menu">
+              <li>
+                <a href=# data-level="1">Low 2*2</a>
+              </li>
+              <li>
+                <a href=# data-level="2">Medium 4*3</a>
+              </li>
+              <li>
+                <a href=# data-level="3">Hard 4*4</a>
+              </li>
+            </ul>
         </div>
-      </div>
+
+        <div id="gameCardsBackChangermy" class="gameCardsBackChanger visability-hidden">
+          <h2>Choose cards back</h2>
+            <ul class="cardsBacks-menu">
+              <li class="back1" data-cardBack="1"></li>
+              <li class="back2" data-cardBack="2"></li>
+              <li class="back3" data-cardBack="3"></li>
+            </ul>
+        </div>
+
+        <div id="cardsFild"></div>
+        <div id="gameTimer"></div>
+    </div>
       <script type="text/javascript" src="js/js.js"></script>
   </body>  
 </html>

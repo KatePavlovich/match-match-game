@@ -3,8 +3,6 @@
          
           init: function(cards){
             this.game = document.querySelector("#game");
-            this.secondsAmount = 0;
-            this.minutesAmount = 0;
             this.card1 = "";
             this.card2 = "";
             this.card1id = "";
@@ -15,36 +13,33 @@
             
             this.gameStartScreen = document.querySelector("#startScreen");
             this.gameCardsBackChanger = document.querySelector("#gameCardsBackChangermy");
-            this.gameWrapper = document.createElement("div");
+            this.gameTimer2 =document.querySelector("#gameTimer");
+            this.gameTimer = document.createElement("div");
             this.gameContents = document.createElement("div");
-            this.gameWrapper.appendChild(this.gameContents);
             this.gameMessages = document.createElement("div");
-            this.gameTimer =document.createElement("div");
+            
             this.startScreenEvents();
     },
 
           startScreenEvents: function() {
             this.gameStartScreen.classList.remove("visability-hidden");
-             let levelsNodes = document.querySelectorAll(".levels-menu a");
-             let length = levelsNodes.length;
-             console.log(levelsNodes, length);
-               for ( let i = 0;  i < length; i++ ) {
-                  let levelNode = levelsNodes[i];
-                  this.startScreenEventsHandler(levelNode);
-                }
+              let levelsNodes = document.querySelectorAll(".levels-menu a");
+              let length = levelsNodes.length;
+              for ( let i = 0;  i < length; i++ ) {
+                let levelNode = levelsNodes[i];
+                this.startScreenEventsHandler(levelNode);
+              }
           },
 
           startScreenEventsHandler: function(levelNode) {
               let self = this;
               levelNode.addEventListener( "click", function(e) {
                   self.setupCardsBackScreen(this);
-
               });
           },
 
           setupCardsBackScreen: function(levelNode) {
               this.level = levelNode.getAttribute("data-level");
-              console.log(this.level);
               this.gameStartScreen.classList.add("visability-hidden");
               this.cardsBacksScreen();
           },
@@ -71,11 +66,10 @@
           },
 
           setupGameWrapper: function(cardBack) {
+
                 this.cardBack = cardBack.getAttribute("data-cardBack");
-                //this.gameCardsBackChanger.parentNode.removeChild(this.gameCardsBackChanger);
                 this.gameCardsBackChanger.classList.add("visability-hidden");
-                this.game.appendChild(this.gameWrapper);
-                
+                this.game.appendChild(this.gameContents);
                 this.buildTiles();
           },
 
@@ -129,7 +123,10 @@
                 let tile = tiles[i];
                 this.gamePlayEvents(tile);
               };
-             this.setGameTimer(); 
+
+              this.secondsAmount = 0;
+              this.minutesAmount = 0;
+              this.setGameTimer(); 
             },
 
             gamePlayEvents: function(tile) {
@@ -170,7 +167,7 @@
               self.card2.classList.add("hide");
               self.gameResetVars();
               self.flippedTiles = self.flippedTiles + 2;
-              if (self.flippedTiles ===self.numTiles) {
+              if (self.flippedTiles === self.numTiles) {
                 self.winGame();
               }
             }, 1500 );
@@ -196,13 +193,12 @@
 
           winGame: function() {
                   let self=this;
-                  //this.clearTimer();
+                  this.clearTimer();
                   this.gameContents.parentNode.removeChild(this.gameContents);
-                  //this.gameTimer.parentNode.removeChild(this.gameTimer);
-                  this.gameMessagesHTML = `<h2 class="congratulations">You won!</h2>
+                  this.gameTimer.parentNode.removeChild(this.gameTimer);
+                  this.gameMessages.innerHTML = `<h2 class="congratulations">You won!</h2>
                   <p>You made it in ${this.minutesAmount} minutes and ${this.secondsAmount} seconds! Lucky you are)</p>
                     <button id="restart-button" class="buttonPlay">New game?</button>`;
-                  this.gameMessages.innerHTML = this.gameMessagesHTML;
                   this.game.appendChild(this.gameMessages);
 
                   document.getElementById("restart-button").addEventListener( "click",  function(e) {
@@ -222,14 +218,14 @@
           },
 
           setGameTimer: function() {
+            this.clearTimer();
               this.secondsAmount++;
                     if (this.secondsAmount===60){
                       this.minutesAmount++;
                       this.secondsAmount=0;
                     }
-              this.gameTimerHTML = `<span>Timer: ${this.minutesAmount}: ${this.secondsAmount} </span>`;
-              this.gameTimer.innerHTML = this.gameTimerHTML;
-              this.gameContents.appendChild(this.gameTimer);
+              this.gameTimer.innerHTML = `<span>Timer: ${this.minutesAmount}: ${this.secondsAmount} </span>`;
+              this.gameTimer2.appendChild(this.gameTimer);
               timer=setTimeout(this.setGameTimer.bind(this),1000); 
           },
 
@@ -239,13 +235,9 @@
 
 
           resetGame: function() {
-               this.clearTimer();
-                //clearTimeout(timer);
-               this.gameTimer.parentNode.removeChild(this.gameTimer);
-                this.gameMessages.parentNode.removeChild(this.gameMessages);
-                this.init();  
+              this.gameMessages.parentNode.removeChild(this.gameMessages);
+              this.init();  
           }
-
 
       };
 
